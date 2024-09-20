@@ -9,3 +9,17 @@ function getComputerChoice() {
 		return 'SCISSORS';
 	}
 }
+
+function getHumanChoice() {
+	let str;
+
+	do {
+		str = prompt().toUpperCase();
+	} while (!validate(str));
+
+	return str;
+}
+
+function validate(str) {
+	return str === 'ROCK' || str === 'PAPER' || str === 'SCISSORS';
+}
