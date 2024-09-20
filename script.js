@@ -1,3 +1,5 @@
+playGame();
+
 function getComputerChoice() {
 	const rand = Math.floor(Math.random() * 3);
 
@@ -33,7 +35,7 @@ function validate(str) {
  *
  * 	Returns undefined if tie, false if human won, else true.
  */
- function playRound(humanChoice, computerChoice) {
+function playRound(humanChoice, computerChoice) {
 	if (humanChoice === computerChoice) {
 		return undefined;
 	}
@@ -63,4 +65,48 @@ function validate(str) {
 	});
 
 	return winnerIndex !== 0;
+}
+
+function winMessage(humanChoice, computerChoice) {
+	console.log('You won! ' + humanChoice + ' beats ' + computerChoice);
+}
+
+function loseMessage(humanChoice, computerChoice) {
+	console.log('You lose! ' + computerChoice + ' beats ' + humanChoice)
+}
+
+function playGame() {
+	let humanScore = 0;
+	let computerScore = 0;
+	let humanChoice;
+	let computerChoice;
+	let result;
+
+	for (let i = 0; i < 5; i++) {
+		humanChoice = getHumanChoice();
+		computerChoice = getComputerChoice();
+		result = playRound(humanChoice, computerChoice);
+
+		if (result) {
+			computerScore++;
+			loseMessage(humanChoice, computerChoice);
+		} else if (result === undefined) {
+			console.log('Tie! Both players chose ' + humanChoice);
+		} else {
+			humanScore++;
+			winMessage(humanChoice, computerChoice);
+		}
+	}
+
+	finalMessage(humanScore, computerScore);
+}
+
+function finalMessage(humanScore, computerScore) {
+	if (humanScore > computerScore) {
+		console.log('You won. Your Score: ' + humanScore + ', computer Score: ' + computerScore);
+	} else if (humanScore < computerScore) {
+		console.log('You lost. Your Score: ' + humanScore + ', computer Score: ' + computerScore);
+	} else {
+		console.log('Tie! Your Score: ' + humanScore + ', computer Score: ' + computerScore);
+	}
 }
