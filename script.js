@@ -68,11 +68,34 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function winMessage(humanChoice, computerChoice) {
-	console.log('You won! ' + humanChoice + ' beats ' + computerChoice);
+	let resultDiv = findOrCreateNode('div', 'result', 'btn-group');
+	
+	resultDiv.textContent = 'You won! ' + humanChoice.toUpperCase() + ' beats ' + computerChoice.toUpperCase();
 }
 
 function loseMessage(humanChoice, computerChoice) {
-	console.log('You lose! ' + computerChoice + ' beats ' + humanChoice)
+	let resultDiv = findOrCreateNode('div', 'result', 'btn-group');
+
+	resultDiv.textContent = 'You lose! ' + computerChoice.toUpperCase() + ' beats ' + humanChoice.toUpperCase();
+}
+
+function tieMessage(humanChoice) {
+	let resultDiv = findOrCreateNode('div', 'result', 'btn-group');
+
+	resultDiv.textContent = 'Tie! Both players chose ' + humanChoice.toUpperCase();
+}
+
+function findOrCreateNode(tag, className, classNameBefore) {
+	let result = document.querySelector('.' + className);
+	const resultBefore = document.querySelector('.' + classNameBefore);
+
+	if (result === null) {
+		result = document.createElement(tag);
+		result.classList.add(className);
+		document.body.insertBefore(result, resultBefore);
+	}
+
+	return result;
 }
 
 function playGame() {
@@ -91,7 +114,7 @@ function playGame() {
 			computerScore++;
 			loseMessage(humanChoice, computerChoice);
 		} else if (result === undefined) {
-			console.log('Tie! Both players chose ' + humanChoice);
+			tieMessage(humanChoice);
 		} else {
 			humanScore++;
 			winMessage(humanChoice, computerChoice);
@@ -102,11 +125,13 @@ function playGame() {
 }
 
 function finalMessage(humanScore, computerScore) {
+	let finalScoreDiv = findOrCreateNode('div', 'final-score', 'result');
+
 	if (humanScore > computerScore) {
-		console.log('You won. Your Score: ' + humanScore + ', computer Score: ' + computerScore);
+		finalScoreDiv.textContent = 'You won. Your Score: ' + humanScore + ', computer Score: ' + computerScore;
 	} else if (humanScore < computerScore) {
-		console.log('You lost. Your Score: ' + humanScore + ', computer Score: ' + computerScore);
+		finalScoreDiv.textContent = 'You lost. Your Score: ' + humanScore + ', computer Score: ' + computerScore;
 	} else {
-		console.log('Tie! Your Score: ' + humanScore + ', computer Score: ' + computerScore);
+		finalScoreDiv.textContent = 'Tie! Your Score: ' + humanScore + ', computer Score: ' + computerScore;
 	}
 }
