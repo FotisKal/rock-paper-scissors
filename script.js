@@ -3,6 +3,7 @@
 const ROCK_CHOICE = 'rock';
 const PAPER_CHOICE = 'paper';
 const SCISSORS_CHOICE = 'scissors';
+const SCORE_CAP = 5;
 
 playGame();
 
@@ -18,18 +19,8 @@ function getComputerChoice() {
 	}
 }
 
-function getHumanChoice() {
-	let str;
-
-	do {
-		str = prompt().toUpperCase();
-	} while (!validate(str));
-
-	return str;
-}
-
-function validate(str) {
-	return str === 'ROCK' || str === 'PAPER' || str === 'SCISSORS';
+function validateHumanChoice(str) {
+	return str === ROCK_CHOICE || str === PAPER_CHOICE || str === SCISSORS_CHOICE;
 }
 
 /**
@@ -110,10 +101,23 @@ function playGame() {
 	let humanChoice;
 	let computerChoice;
 	let result;
+	const btnGroup = document.querySelector('.btn-group');
 
-	for (let i = 0; i < 5; i++) {
-		humanChoice = getHumanChoice();
+	btnGroup.addEventListener('click', (e) => {
+		if (humanScore === SCORE_CAP || computerScore === SCORE_CAP) {
+			finalMessage(humanScore, computerScore);
+
+			return;
+		}
+
+		humanChoice = e.target.id;
+
+		if (!validateHumanChoice(humanChoice)) {
+			return;
+		}
+
 		computerChoice = getComputerChoice();
+
 		result = playRound(humanChoice, computerChoice);
 
 		if (result) {
@@ -125,9 +129,13 @@ function playGame() {
 			humanScore++;
 			winMessage(humanChoice, computerChoice);
 		}
-	}
 
-	finalMessage(humanScore, computerScore);
+		if (humanScore === SCORE_CAP || computerScore === SCORE_CAP) {
+			finalMessage(humanScore, computerScore);
+	
+			return;
+		}
+	});
 }
 
 function finalMessage(humanScore, computerScore) {
