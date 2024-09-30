@@ -1,14 +1,20 @@
+"use strict";
+
+const ROCK_CHOICE = 'rock';
+const PAPER_CHOICE = 'paper';
+const SCISSORS_CHOICE = 'scissors';
+
 playGame();
 
 function getComputerChoice() {
 	const rand = Math.floor(Math.random() * 3);
 
 	if (rand === 0) {
-		return 'ROCK';
+		return ROCK_CHOICE;
 	} else if (rand === 1) {
-		return 'PAPER';
+		return PAPER_CHOICE;
 	} else {
-		return 'SCISSORS';
+		return SCISSORS_CHOICE;
 	}
 }
 
@@ -46,9 +52,9 @@ function playRound(humanChoice, computerChoice) {
 	 */
 	let choices = [humanChoice, computerChoice];
 	let choicesMapped = choices.map((choice) => {
-		if (choice === 'ROCK') {
+		if (choice === ROCK_CHOICE) {
 			return  2;
-		} else if (choice === 'PAPER') {
+		} else if (choice === PAPER_CHOICE) {
 			return  0;
 		} else {
 			return  1;
@@ -57,7 +63,7 @@ function playRound(humanChoice, computerChoice) {
 	let exceptionCheckSum = choicesMapped.reduce((partialSum, a) => partialSum + a, 0);
 
 	if (exceptionCheckSum === 2) {
-		return humanChoice === 'ROCK';
+		return humanChoice === ROCK_CHOICE;
 	}
 
 	let winnerIndex = choicesMapped.findIndex((choiceAsNum) => {
